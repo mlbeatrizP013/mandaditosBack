@@ -1,13 +1,30 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { RepartidorModule } from './repartidor/repartidor.module';
 import { PedidoModule } from './pedido/pedido.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Pedido } from './pedido/entities/pedido.entity';
+import { Cliente } from './clientes/entities/cliente.entity';
+import { Repartidor } from './repartidor/entities/repartidor.entity';
+
 
 @Module({
-  imports: [UserModule, ClientesModule, RepartidorModule, PedidoModule],
+  imports: [ClientesModule,
+     RepartidorModule,
+      PedidoModule,
+      TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '',
+      database: 'mandaditos',
+      entities: [Pedido, Cliente, Repartidor],
+      synchronize: true,
+      }),
+    ],
   controllers: [AppController],
   providers: [AppService],
 })
