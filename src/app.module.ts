@@ -8,6 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Pedido } from './pedido/entities/pedido.entity';
 import { Cliente } from './clientes/entities/cliente.entity';
 import { Repartidor } from './repartidor/entities/repartidor.entity';
+import { DireccionModule } from './direccion/direccion.module';
+import { Direccion } from './direccion/entities/direccion.entity';
 
 
 @Module({
@@ -21,9 +23,10 @@ import { Repartidor } from './repartidor/entities/repartidor.entity';
       username: 'root',
       password: '',
       database: 'mandaditos',
-      entities: [Pedido, Cliente, Repartidor],
+      entities: [Pedido, Cliente, Repartidor, Direccion],
       synchronize: true,
       }),
+      DireccionModule,
     ],
   controllers: [AppController],
   providers: [AppService],
