@@ -20,6 +20,12 @@ export class Repartidor {
     @Column()
     placa: string
 
+    @Column()
+    password: string
+
+    @Column({ default: true })
+    activo: boolean;
+
     @OneToMany(() => Pedido, (pedido) => pedido.repartidor)
     pedidos: Pedido[]
 }
