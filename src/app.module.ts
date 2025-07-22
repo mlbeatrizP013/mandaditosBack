@@ -10,6 +10,9 @@ import { Cliente } from './clientes/entities/cliente.entity';
 import { Repartidor } from './repartidor/entities/repartidor.entity';
 import { DireccionModule } from './direccion/direccion.module';
 import { Direccion } from './direccion/entities/direccion.entity';
+//import { EstatusModule } from './estatus/estatus.module';
+//import { NotificationsModule } from './notifications/notifications.module';
+//import { NotificacionModule } from './notificacion/notificacion.module';
 
 
 @Module({
@@ -27,6 +30,9 @@ import { Direccion } from './direccion/entities/direccion.entity';
       synchronize: true,
       }),
       DireccionModule,
+      //EstatusModule,
+      //NotificationsModule,
+      //NotificacionModule,
     ],
   controllers: [AppController],
   providers: [AppService],
