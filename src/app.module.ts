@@ -11,6 +11,7 @@ import { Repartidor } from './repartidor/entities/repartidor.entity';
 import { DireccionModule } from './direccion/direccion.module';
 import { Direccion } from './direccion/entities/direccion.entity';
 import { EstatusModule } from './estatus/estatus.module';
+import { NotificacionModule } from './notificacion/notificacion.module';
 
 
 @Module({
@@ -29,6 +30,7 @@ import { EstatusModule } from './estatus/estatus.module';
       }),
       DireccionModule,
       EstatusModule,
+      NotificacionModule,
     ],
   controllers: [AppController],
   providers: [AppService],
