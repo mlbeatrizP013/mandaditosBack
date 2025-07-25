@@ -12,7 +12,7 @@ export class DireccionController {
     return this.direccionService.create(createDireccionDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.direccionService.findAll();
   }
@@ -20,6 +20,11 @@ export class DireccionController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.direccionService.findOne(+id);
+  }
+
+   @Get('cliente/:clienteId')
+  findByCliente(@Param('clienteId') clienteId: string) {
+    return this.direccionService.findByCliente(+clienteId);
   }
 
   @Patch(':id')
