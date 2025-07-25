@@ -12,7 +12,7 @@ export class EstatusController {
     return this.estatusService.create(createEstatusDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.estatusService.findAll();
   }
@@ -20,6 +20,11 @@ export class EstatusController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.estatusService.findOne(+id);
+  }
+
+   @Get('pedido/:pedidoId')
+  findByPedido(@Param('pedidoId') pedidoId: string) {
+    return this.estatusService.findByPedido(+pedidoId);
   }
 
   @Patch(':id')
