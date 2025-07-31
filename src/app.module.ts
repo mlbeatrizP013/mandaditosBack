@@ -24,7 +24,7 @@ import { Estatus } from './estatus/entities/estatus.entity';
       username: 'root',
       password: '',
       database: 'mandaditos',
-      entities: [Pedido, Cliente, Repartidor, Direccion, Estatus],
+      entities: [Pedido, Cliente, Repartidor, Direccion,Estatus],
       synchronize: true,
       }),
       DireccionModule,
