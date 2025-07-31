@@ -24,8 +24,16 @@ export class RepartidorService {
     }
   }
 
-  findAll() {
-    return `This action returns all repartidor`;
+  async findAll() {
+    try{
+      const repartidores = await this._RepartidorRepo.find();
+      return repartidores;
+    }catch (error){
+      console.error('Error al encontrar repartidores:', error);
+      throw new InternalServerErrorException(
+        'Error interno al recuperar todos los empleados'
+      );
+    }
   }
 
   findOne(id: number) {
