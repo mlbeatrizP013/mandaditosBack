@@ -1,4 +1,12 @@
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsDate, IsArray } from 'class-validator';
+import { Type } from 'class-transformer';
+
+export enum EstatusPedido {
+  EN_ESPERA = 'En espera',
+  ACEPTADO = 'Aceptado',
+  EN_CAMINO = 'En camino',
+  ENTREGADO = 'Entregado',
+}
 
 export class CreatePedidoDto {
   @IsNotEmpty()
@@ -15,8 +23,8 @@ export class CreatePedidoDto {
   @IsNumber()
   precio: number;
 
-  @IsEnum(['En espera', 'Aceptado', 'En camino', 'Entregado'])
-  estatus: string;
+  @IsEnum(EstatusPedido)
+  estatus: EstatusPedido;
 
   @IsOptional()
   @IsString()
@@ -26,10 +34,11 @@ export class CreatePedidoDto {
   @IsDate()
   fecha?: Date;
 
-  @IsNotEmpty()
+  @Type(() => Date)
   @IsDate()
   fecha_entrega_estimada: Date;
 
+  @Type(() => Date)
   @IsOptional()
   @IsDate()
   fecha_entrega_real?: Date;
