@@ -10,6 +10,7 @@ import { Cliente } from './clientes/entities/cliente.entity';
 import { Repartidor } from './repartidor/entities/repartidor.entity';
 import { DireccionModule } from './direccion/direccion.module';
 import { Direccion } from './direccion/entities/direccion.entity';
+import { Estatus } from './estatus/entities/estatus.entity';
 
 
 @Module({
@@ -23,7 +24,7 @@ import { Direccion } from './direccion/entities/direccion.entity';
       username: 'root',
       password: '',
       database: 'mandaditos',
-      entities: [Pedido, Cliente, Repartidor, Direccion],
+      entities: [Pedido, Cliente, Repartidor, Direccion,Estatus],
       synchronize: true,
       }),
       DireccionModule,
