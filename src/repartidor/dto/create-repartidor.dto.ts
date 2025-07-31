@@ -1,32 +1,26 @@
-import { IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsString, IsStrongPassword } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, IsBoolean } from 'class-validator';
 
 export class CreateRepartidorDto {
-    @IsNotEmpty()
-    @IsString()
-    nombre: string
+  @IsNotEmpty()
+  @IsString()
+  nombre: string;
 
-    @IsNotEmpty()
-    @IsString()
-    telefono: string
+  @IsNotEmpty()
+  @IsString()
+  telefono: string;
 
-    @IsNotEmpty()
-    @IsString()
-    @IsEmail()
-    correo: string
+  @IsNotEmpty()
+  @IsEmail()
+  correo: string;
 
-    @IsNotEmpty()
-    @IsString()
-    placa: string
+  @IsNotEmpty()
+  @IsString()
+  placa: string;
 
-    @IsNotEmpty()
-    @IsStrongPassword()
-    password: string
+  @IsNotEmpty()
+  @IsString()
+  password: string;
 
-    @IsNotEmpty()
-    @IsBoolean()
-    activo: string
-
-    @IsNotEmpty()
-    @IsNumber()
-    pedido: number
+  @IsBoolean()
+  activo: boolean;
 }
