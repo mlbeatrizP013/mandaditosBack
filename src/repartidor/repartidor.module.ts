@@ -5,9 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Repartidor } from './entities/repartidor.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([
-    Repartidor
-  ])],
+  imports: [TypeOrmModule.forFeature([Repartidor])],
   controllers: [RepartidorController],
   providers: [RepartidorService],
 })
