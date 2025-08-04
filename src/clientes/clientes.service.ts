@@ -47,21 +47,7 @@ async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
     }
   }
 
-   async findByEmail(email: string): Promise<Cliente> {
-    try {
-      const cliente = await this.clienteRepository.findOne({
-        where: { correo: email },
-        relations: ['direcciones']
-      });
-      if (!cliente) {
-        throw new NotFoundException(`Cliente con email:${email} no encontrado`);
-      }
-      return cliente;
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new InternalServerErrorException('Error al buscar el cliente por email');
-    }
-  }
+
   
   async update(id: number, updateClienteDto: UpdateClienteDto): Promise<Cliente> {
     try {
@@ -90,15 +76,5 @@ async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
     }
   }
 
-    async search(busqueda: string): Promise<Cliente[]> {
-    try {
-      return await this.clienteRepository
-        .createQueryBuilder('cliente')
-        .where('cliente.nombre LIKE :busqueda', { busqueda: `%${busqueda}%` })
-        .orWhere('cliente.correo LIKE :busqueda', { busqueda: `%${busqueda}%` })
-        .getMany();
-    } catch (error) {
-      throw new InternalServerErrorException('Error en la búsqueda');
-    }
-  }
+
 }

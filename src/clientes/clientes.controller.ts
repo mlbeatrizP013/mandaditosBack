@@ -27,18 +27,12 @@ export class ClientesController {
     return this.clientesService.update(+id, updateClienteDto);
   }
 
-  @Get('email/:email')
-  findByEmail(@Param('email') email: string) {
-    return this.clientesService.findByEmail(email);
-  }
+ 
 
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.clientesService.remove(+id);
   }
 
-    @Get('/search')
-  searchCliente(@Query('busqueda') busqueda: string) {
-    return this.clientesService.search(busqueda);
-  }
+
 }

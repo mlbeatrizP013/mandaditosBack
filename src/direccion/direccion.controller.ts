@@ -22,7 +22,7 @@ export class DireccionController {
     return this.direccionService.findOne(+id);
   }
 
-   @Get('cliente/:clienteId')
+  @Get('cliente/:clienteId')
   findByCliente(@Param('clienteId') clienteId: string) {
     return this.direccionService.findByCliente(+clienteId);
   }
