@@ -1,3 +1,4 @@
+import { Categoria } from "src/categorias/entities/categoria.entity";
 import { Cliente } from "src/clientes/entities/cliente.entity";
 import { Direccion } from "src/direccion/entities/direccion.entity";
 import { Estatus } from "src/estatus/entities/estatus.entity";
@@ -9,8 +10,9 @@ export class Pedido {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    categoria: string
+    @ManyToOne(() => Categoria)
+    @JoinColumn({ name: 'id_categoria'})
+    categoria: Categoria
 
     @ManyToOne(() => Direccion)
     @JoinColumn({ name: 'lugar_entrega' })

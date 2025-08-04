@@ -11,12 +11,17 @@ import { Repartidor } from './repartidor/entities/repartidor.entity';
 import { DireccionModule } from './direccion/direccion.module';
 import { Direccion } from './direccion/entities/direccion.entity';
 import { Estatus } from './estatus/entities/estatus.entity';
+import { CategoriasService } from './categorias/categorias.service';
+import { Categoria } from './categorias/entities/categoria.entity';
+import { CategoriasModule } from './categorias/categorias.module';
 
 
 @Module({
   imports: [ClientesModule,
      RepartidorModule,
       PedidoModule,
+      DireccionModule,
+      CategoriasModule,
       TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -24,10 +29,9 @@ import { Estatus } from './estatus/entities/estatus.entity';
       username: 'root',
       password: '',
       database: 'mandaditos',
-      entities: [Pedido, Cliente, Repartidor, Direccion,Estatus],
+      entities: [Pedido, Cliente, Repartidor, Direccion, Estatus, Categoria],
       synchronize: true,
       }),
-      DireccionModule,
     ],
   controllers: [AppController],
   providers: [AppService],

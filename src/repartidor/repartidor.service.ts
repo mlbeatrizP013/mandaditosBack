@@ -1,15 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateRepartidorDto } from './dto/create-repartidor.dto';
 import { UpdateRepartidorDto } from './dto/update-repartidor.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repartidor } from './entities/repartidor.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class RepartidorService {
-  create(createRepartidorDto: CreateRepartidorDto) {
-    return 'This action adds a new repartidor';
+
+  constructor(@InjectRepository(Repartidor)
+    private _RepartidorRepo: Repository<Repartidor>
+  ){}
+  async create(createRepartidorDto: CreateRepartidorDto) {
+    try{
+      const new_repartidor = this._RepartidorRepo.create(createRepartidorDto);
+      await this._RepartidorRepo.save(new_repartidor);
+      return new_repartidor;
+    }catch(error){
+      console.error('Error al crear un repartidor nuevo: ', error);
+      throw new InternalServerErrorException(
+        'Error al intentar crear un repatidor nuevo'
+      );
+    }
   }
 
-  findAll() {
-    return `This action returns all repartidor`;
+  async findAll() {
+    try{
+      const repartidores = await this._RepartidorRepo.find();
+      return repartidores;
+    }catch (error){
+      console.error('Error al encontrar repartidores:', error);
+      throw new InternalServerErrorException(
+        'Error interno al recuperar todos los empleados'
+      );
+    }
   }
 
   findOne(id: number) {
