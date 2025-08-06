@@ -10,10 +10,10 @@ import { Cliente } from './clientes/entities/cliente.entity';
 import { Repartidor } from './repartidor/entities/repartidor.entity';
 import { DireccionModule } from './direccion/direccion.module';
 import { Direccion } from './direccion/entities/direccion.entity';
-import { Estatus } from './estatus/entities/estatus.entity';
-import { CategoriasService } from './categorias/categorias.service';
-import { Categoria } from './categorias/entities/categoria.entity';
 import { CategoriasModule } from './categorias/categorias.module';
+import { Estatus } from './estatus/entities/estatus.entity';
+import { Categoria } from './categorias/entities/categoria.entity';
+import { NotificacionModule } from './notificacion/notificacion.module';
 
 
 @Module({
@@ -29,9 +29,10 @@ import { CategoriasModule } from './categorias/categorias.module';
       username: 'root',
       password: '',
       database: 'mandaditos',
-      entities: [Pedido, Cliente, Repartidor, Direccion, Estatus, Categoria],
+      entities: [Pedido, Cliente, Repartidor, Direccion, Estatus,Categoria,NotificacionModule],
       synchronize: true,
       }),
+      DireccionModule,
     ],
   controllers: [AppController],
   providers: [AppService],
