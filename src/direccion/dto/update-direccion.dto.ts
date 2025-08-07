@@ -1,5 +1,3 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateDireccionDto } from './create-direccion.dto';
 import { IsString, IsNumber, IsOptional } from 'class-validator';
 
 export class UpdateDireccionDto {

@@ -18,23 +18,24 @@ import { NotificacionModule } from './notificacion/notificacion.module';
 
 @Module({
   imports: [ClientesModule,
-     RepartidorModule,
-      PedidoModule,
-      DireccionModule,
-      CategoriasModule,
-      TypeOrmModule.forRoot({
+    RepartidorModule,
+    PedidoModule,
+    DireccionModule,
+    CategoriasModule,
+    NotificacionModule,
+    TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
       port: 3306,
       username: 'root',
       password: '',
       database: 'mandaditos',
-      entities: [Pedido, Cliente, Repartidor, Direccion, Estatus,Categoria,NotificacionModule],
+      entities: [Pedido, Cliente, Repartidor, Direccion, Estatus, Categoria, NotificacionModule],
       synchronize: true,
-      }),
-      DireccionModule,
-    ],
+    }),
+    DireccionModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

@@ -12,7 +12,7 @@ export class RepartidorController {
     return this.repartidorService.create(createRepartidorDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.repartidorService.findAll();
   }

@@ -25,9 +25,6 @@ export class Pedido {
     @Column({ type: 'decimal' })
     precio: number;
 
-    @Column({ type: 'enum', enum: ['En espera', 'Aceptado', 'En camino', 'Entregado'] })
-    estatus: string;
-
     @Column({ type: 'text', nullable: true })
     notas?: string;
 
@@ -40,16 +37,16 @@ export class Pedido {
     @Column({ type: 'datetime', nullable: true })
     fecha_entrega_real?: Date;
 
-    @OneToMany(() => Estatus, historial => historial.pedido)
+    @OneToMany(() => Estatus, estatus => estatus.pedido, { cascade: true})
     historial: Estatus[];
-
 
     @ManyToOne(() => Cliente, (cliente) => cliente.pedidos)
     @JoinColumn({ name: 'id_clientes' })
     cliente: Cliente
 
-    @ManyToOne(() => Repartidor, (repartidor) => repartidor.pedidos)
+    @ManyToOne(() => Repartidor, (repartidor) => repartidor.pedidos, { nullable: true })
     @JoinColumn({ name: 'id_repartidor' })
-    repartidor: Repartidor
+    repartidor: Repartidor ;
+
 
 }

@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { NotificacionGateway } from './notificacion.gateway';
 
 @Module({
-  providers: [NotificacionGateway]
+  providers: [NotificacionGateway],
+  exports: [NotificacionGateway],
 })
-export class NotificacionModule {}
+export class NotificacionModule {
+  
+}

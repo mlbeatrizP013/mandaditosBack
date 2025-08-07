@@ -12,7 +12,7 @@ export class PedidoController {
     return this.pedidoService.create(createPedidoDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.pedidoService.findAll();
   }
