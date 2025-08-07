@@ -1,17 +1,15 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsDate, IsArray } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString, IsDate, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
-
-export enum EstatusPedido {
-  EN_ESPERA = 'En espera',
-  ACEPTADO = 'Aceptado',
-  EN_CAMINO = 'En camino',
-  ENTREGADO = 'Entregado',
-}
+import { PrimaryGeneratedColumn } from 'typeorm';
 
 export class CreatePedidoDto {
+  @IsOptional()
+  @IsNumber()
+  id?: number;
+
   @IsNotEmpty()
-  @IsString()
-  categoria: string;
+  @IsNumber()
+  categoria: number;
 
   @IsNotEmpty()
   lugar_entrega: number;
@@ -23,16 +21,14 @@ export class CreatePedidoDto {
   @IsNumber()
   precio: number;
 
-  @IsEnum(EstatusPedido)
-  estatus: EstatusPedido;
-
   @IsOptional()
   @IsString()
   notas?: string;
 
   @IsOptional()
+  @Type(() => Date)
   @IsDate()
-  fecha?: Date;
+  fecha: Date;
 
   @Type(() => Date)
   @IsDate()
@@ -47,6 +43,7 @@ export class CreatePedidoDto {
   cliente: number; 
 
   @IsNotEmpty()
+  @IsOptional()
   repartidor: number;
 
   @IsOptional()
