@@ -8,10 +8,15 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class CategoriasService {
   constructor(@InjectRepository(Categoria)
-    private _CategoriasRepo: Repository<Categoria>
+  private _CategoriasRepo: Repository<Categoria>
   ) { }
-  create(createCategoriaDto: CreateCategoriaDto) {
-    return 'This action adds a new categoria';
+  async create(createCategoriaDto: CreateCategoriaDto): Promise<Categoria> {
+    try {
+      const newCliente = this._CategoriasRepo.create(createCategoriaDto);
+      return await this._CategoriasRepo.save(newCliente);
+    } catch (error) {
+      throw new InternalServerErrorException('Error al crear la categoría nueva');
+    }
   }
 
   async findAll() {
