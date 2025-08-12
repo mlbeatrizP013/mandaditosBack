@@ -96,3 +96,4 @@ async findOne(id: number): Promise<Repartidor> {
     }
   }
 }
+ 
