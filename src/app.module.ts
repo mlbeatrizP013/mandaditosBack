@@ -22,6 +22,9 @@ import { Categoria } from './categorias/entities/categoria.entity';
 
 import * as Joi from 'joi';
 import { EstatusModule } from './estatus/estatus.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './user/entities/user.entity';
 
 @Module({
   imports: [
@@ -55,8 +58,9 @@ import { EstatusModule } from './estatus/estatus.module';
         username: config.get<string>('DB_USERNAME', 'root'),
         password: config.get<string>('DB_PASSWORD', ''),
         database: config.get<string>('DB_NAME', 'mandaditos'),
-        entities: [Pedido, Cliente, Repartidor, Direccion, Estatus, Categoria],
+        entities: [Pedido, Cliente, Repartidor, Direccion, Estatus, Categoria, User],
         synchronize: true,
+        autoLoadEntities: true,
       }),
     }),
 
@@ -66,6 +70,8 @@ import { EstatusModule } from './estatus/estatus.module';
     DireccionModule,
     CategoriasModule,
     NotificacionModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

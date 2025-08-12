@@ -1,5 +1,6 @@
 import { Direccion } from "src/direccion/entities/direccion.entity";
 import { Pedido } from "src/pedido/entities/pedido.entity";
+import { User } from "src/user/entities/user.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -36,5 +37,11 @@ export class Cliente {
     @OneToOne(() => Direccion)
     @JoinColumn()
     direccion: Direccion
+
+    @OneToOne(() => User, user => user.cliente)
+    @JoinColumn()
+    user: User;
+
+
     
 }
