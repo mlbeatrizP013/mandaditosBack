@@ -32,20 +32,31 @@ async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
   }
 
   async findOne(id: number): Promise<Cliente> {
-    try {
-      const cliente = await this.clienteRepository.findOne({
-        where: { id },
-        relations: ['direcciones', 'pedidos']
-      });
-      if (!cliente) {
-        throw new NotFoundException(`Cliente con id:${id} no encontrado`);
-      }
-      return cliente;
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new InternalServerErrorException('Error al buscar el cliente');
+  try {
+    const cliente = await this.clienteRepository.findOne({
+      where: { id },
+      relations: [
+        'direcciones',
+        'pedidos',
+        'pedidos.categoria',
+        'pedidos.lugar_entrega',
+        'pedidos.lugar_recoleccion',
+        'pedidos.historial',
+      ],
+      order: {
+        pedidos: { id: 'DESC' },
+      },
+    });
+    if (!cliente) {
+      throw new NotFoundException(`Cliente con id:${id} no encontrado`);
     }
+    return cliente;
+  } catch (error) {
+    if (error instanceof NotFoundException) throw error;
+    throw new InternalServerErrorException('Error al buscar el cliente');
   }
+}
+
 
 
   
@@ -75,6 +86,21 @@ async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
       throw new InternalServerErrorException(`Ocurrió un error al borrar al cliente ${error}`);
     }
   }
+
+  async setDireccionPrincipal(clienteId: number, direccionId: number) {
+  const cliente = await this.clienteRepository.findOne({
+    where: { id: clienteId },
+    relations: ['direcciones', 'direccion'],
+  });
+  if (!cliente) throw new NotFoundException('Cliente no encontrado');
+
+  const direccion = cliente.direcciones.find(d => d.id === direccionId);
+  if (!direccion) throw new NotFoundException('La dirección no pertenece a este cliente');
+
+  cliente.direccion = direccion;
+  return this.clienteRepository.save(cliente);
+}
+
 
 
 }

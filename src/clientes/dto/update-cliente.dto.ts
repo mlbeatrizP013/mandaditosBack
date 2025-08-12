@@ -20,5 +20,6 @@ export class UpdateClienteDto {
     @IsBoolean()
     @IsOptional()
     active?: boolean;
+    
 
 }

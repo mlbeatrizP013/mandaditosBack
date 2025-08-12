@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pedido } from './entities/pedido.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { Cliente } from 'src/clientes/entities/cliente.entity';
 import { Repartidor } from 'src/repartidor/entities/repartidor.entity';
 import { Categoria } from 'src/categorias/entities/categoria.entity';
@@ -74,6 +74,33 @@ export class PedidoService {
     return pedidoGuardado;
   }
 
+  async disponibles(): Promise<Pedido[]> {
+    const pedidos = await this.pedidoRepository.find({
+      where: { repartidor: IsNull() }, // sin repartidor asignado
+      relations: ['historial', 'cliente', 'repartidor', 'categoria', 'lugar_entrega', 'lugar_recoleccion'],
+      order: { id: 'DESC' }
+    });
+
+    // filtra por último estatus "En espera"
+    return pedidos.filter(p => {
+      const ultimo = p.historial?.[p.historial.length - 1];
+      return ultimo?.estatus === 'En espera';
+    });
+  }
+
+  async enCursoPorRepartidor(repartidorId: number): Promise<Pedido[]> {
+    const pedidos = await this.pedidoRepository.find({
+      where: { repartidor: { id: repartidorId } },
+      relations: ['historial', 'cliente', 'repartidor', 'categoria', 'lugar_entrega', 'lugar_recoleccion'],
+      order: { id: 'DESC' }
+    });
+
+    return pedidos.filter(p => {
+      const ultimo = p.historial?.[p.historial.length - 1]?.estatus;
+      return ultimo === 'Aceptado' || ultimo === 'En camino';
+    });
+  }
+
   async findAll(): Promise<Pedido[]> {
     const pedidos = await this.pedidoRepository.find({
       relations: ['historial', 'cliente', 'repartidor', 'categoria', 'lugar_entrega', 'lugar_recoleccion']
@@ -85,6 +112,40 @@ export class PedidoService {
     });
 
     return pedidos_en_espera
+  }
+
+  async aceptarPorRepartidor(pedidoId: number, repartidorId: number) {
+    const pedido = await this.pedidoRepository.findOne({
+      where: { id: pedidoId },
+      relations: ['historial', 'repartidor']
+    });
+    if (!pedido) throw new NotFoundException(`Pedido con id:${pedidoId} no encontrado`);
+
+    // no permitir aceptar si ya tiene repartidor
+    if (pedido.repartidor) throw new ConflictException('Pedido ya asignado a un repartidor');
+
+    // verificar estatus actual
+    const ultimo = pedido.historial?.[pedido.historial.length - 1];
+    if (ultimo?.estatus !== 'En espera') {
+      throw new ConflictException(`Pedido no está disponible (estatus actual: ${ultimo?.estatus || 'N/A'})`);
+    }
+
+    // asignar repartidor
+    const repartidor = await this.repartidorRepository.findOne({ where: { id: repartidorId } });
+    if (!repartidor) throw new NotFoundException('Repartidor no encontrado');
+
+    pedido.repartidor = repartidor;
+    await this.pedidoRepository.save(pedido);
+
+    // registra estatus "Aceptado" + notifica
+    await this.actualizarEstatus(pedidoId, 'Aceptado', `Pedido aceptado por repartidor ${repartidorId}`);
+
+    // opcional: recarga con relaciones completas para devolverlo listo
+    const full = await this.pedidoRepository.findOne({
+      where: { id: pedidoId },
+      relations: ['historial', 'cliente', 'repartidor', 'categoria', 'lugar_entrega', 'lugar_recoleccion']
+    });
+    return full!;
   }
 
   async findOne(id: number): Promise<Pedido> {

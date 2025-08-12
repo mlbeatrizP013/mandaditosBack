@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, IsIn, IsBoolean, IsOptional } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString, IsIn, IsBoolean, IsOptional, IsStrongPassword } from 'class-validator';
 
 export class RegisterAuthDto {
     @IsEmail()
@@ -6,10 +6,12 @@ export class RegisterAuthDto {
 
     @IsString()
     @IsNotEmpty()
-    password: string;
+    @IsStrongPassword({
+    minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1
+  }, { message: 'La contraseña debe tener 8+ caracteres, mayúscula, minúscula, número y símbolo' })
+  password: string;
 
-    @IsIn(['cliente', 'repartidor'])
-    role: 'cliente' | 'repartidor';
+    @IsEnum(['cliente','repartidor'] as const) role: 'cliente'|'repartidor';
 
     @IsString()
     nombre: string;
@@ -20,4 +22,6 @@ export class RegisterAuthDto {
     @IsBoolean()
     @IsOptional()
     active?: boolean;
+    // Solo para repartidor
+  @IsOptional() @IsString() placa?: string;
 }

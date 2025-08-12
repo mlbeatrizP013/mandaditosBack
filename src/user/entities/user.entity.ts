@@ -4,16 +4,16 @@ import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    correo: string;
+  @Column()
+  correo: string;
 
-    @Column()
-    password: string;
+  @Column({ length: 255, select: false })
+  password: string;
 
-    @Column({ type: 'enum', enum: ['cliente', 'repartidor'] })
+  @Column({ type: 'enum', enum: ['cliente', 'repartidor'] })
   role: 'cliente' | 'repartidor';
 
   @OneToOne(() => Cliente, cliente => cliente.user)
