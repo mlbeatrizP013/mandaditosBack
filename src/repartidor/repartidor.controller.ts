@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { RepartidorService } from './repartidor.service';
 import { CreateRepartidorDto } from './dto/create-repartidor.dto';

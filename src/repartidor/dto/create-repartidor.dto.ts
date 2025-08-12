@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IsEmail, IsNotEmpty, IsString, IsBoolean } from 'class-validator';
 
 export class CreateRepartidorDto {
