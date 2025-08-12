@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsString, IsOptional, IsNumber, IsIn } from 'class-validator';
 
 export class CreateEstatusDto {

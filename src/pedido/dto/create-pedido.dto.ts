@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsNumber, IsOptional, IsString, IsDate, IsArray } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PrimaryGeneratedColumn } from 'typeorm';
